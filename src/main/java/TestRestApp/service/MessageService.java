@@ -1,17 +1,45 @@
 package TestRestApp.service;
 
+import TestRestApp.database.DatabaseClass;
 import TestRestApp.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MessageService {
 
-    public List<Message> getMessages() {
-        List<Message> messages = new ArrayList<Message>();
-        messages.add(new Message(1L, "MessageText1", "Tom"));
-        messages.add(new Message(2L, "MessageText2", "Dom"));
-        return messages;
+    private Map<Long, Message> messages = DatabaseClass.getMessages();
+
+    public MessageService () {
+        messages.put(1L, new Message(1, "MessageText1", "Tom"));
+        messages.put(2L, new Message(2, "MessageText2", "Dom"));
+    }
+
+    public List<Message> getAllMessages() {
+        return new ArrayList<Message>(messages.values());
+    }
+
+    public Message getMessage(long id) {
+        return messages.get(id);
+    }
+
+    public Message addMessage(Message message) {
+        message.setId(messages.size() + 1);
+        messages.put(message.getId(), message);
+        return message;
+    }
+
+    public Message updateMessage(Message message) {
+        if (message.getId() <= 0) {
+            return null;
+        }
+        messages.put(message.getId(), message);
+        return message;
+    }
+
+    public Message removeMessage(long id) {
+        return messages.remove(id);
     }
 
 }
