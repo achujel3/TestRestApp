@@ -29,8 +29,8 @@ public class MessageResource {
     MessageService messageService = new MessageService();
 
     @GET
-    public List<Message> getMessages(@QueryParam("year") int year, 
-                                     @QueryParam("start") int start, 
+    public List<Message> getMessages(@QueryParam("year") int year,
+                                     @QueryParam("start") int start,
                                      @QueryParam("size") int size
     ) {
         if (year > 0) {
@@ -58,6 +58,11 @@ public class MessageResource {
     @Path("/{messageId}")
     public void updateMessage(@PathParam("messageId") long id, Message message) {
         messageService.removeMessage(id);
+    }
+
+    @Path("/{messageId}/comments")
+    public CommentResource getComments() {
+        return new CommentResource();
     }
 
 
