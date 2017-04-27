@@ -1,6 +1,7 @@
 package TestRestApp.service;
 
 import TestRestApp.database.DatabaseClass;
+import TestRestApp.exception.DataNotFoundException;
 import TestRestApp.model.Message;
 
 import java.util.ArrayList;
@@ -42,7 +43,11 @@ public class MessageService {
     }
 
     public Message getMessage(long id) {
-        return messages.get(id);
+        Message message = messages.get(id);
+        if (message == null) {
+            throw new DataNotFoundException("Message with id " + " not found.");
+        }
+        return message;
     }
 
     public Message addMessage(Message message) {
